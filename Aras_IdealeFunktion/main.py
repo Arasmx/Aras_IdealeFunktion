@@ -1042,12 +1042,12 @@ SELECT zuweisung_ideale.LEAST_y1 from DBSCHEMAARAS.zuweisung_ideale
 result = cursor.fetchall()
 
 for row in result:
-    ideal_y_function = row[0]
+    ideal_for_y1_function = row[0]
 
 cursor.close()
 cursor = db.cursor()
 
-cursor.execute( "SELECT ideal." + ideal_y_function + " from DBSCHEMAARAS.ideal")
+cursor.execute( "SELECT ideal." + ideal_for_y1_function + " from DBSCHEMAARAS.ideal")
 
 result = cursor.fetchall()
 
@@ -1091,12 +1091,12 @@ SELECT zuweisung_ideale.LEAST_y2 from DBSCHEMAARAS.zuweisung_ideale
 result = cursor.fetchall()
 
 for row in result:
-    ideal_y_function = row[0]
+    ideal_for_y2_function = row[0]
 
 cursor.close()
 cursor = db.cursor()
 
-cursor.execute("SELECT ideal." + ideal_y_function + " from DBSCHEMAARAS.ideal")
+cursor.execute("SELECT ideal." + ideal_for_y2_function + " from DBSCHEMAARAS.ideal")
 
 result = cursor.fetchall()
 
@@ -1139,12 +1139,12 @@ SELECT zuweisung_ideale.LEAST_y3 from DBSCHEMAARAS.zuweisung_ideale
 result = cursor.fetchall()
 
 for row in result:
-    ideal_y_function = row[0]
+    ideal_for_y3_function = row[0]
 
 cursor.close()
 cursor = db.cursor()
 
-cursor.execute("SELECT ideal." + ideal_y_function + " from DBSCHEMAARAS.ideal")
+cursor.execute("SELECT ideal." + ideal_for_y3_function + " from DBSCHEMAARAS.ideal")
 
 result = cursor.fetchall()
 
@@ -1187,12 +1187,12 @@ SELECT zuweisung_ideale.LEAST_y4 from DBSCHEMAARAS.zuweisung_ideale
 result = cursor.fetchall()
 
 for row in result:
-    ideal_y_function = row[0]
+    ideal_for_y4_function = row[0]
 
 cursor.close()
 cursor = db.cursor()
 
-cursor.execute("SELECT ideal." + ideal_y_function + " from DBSCHEMAARAS.ideal")
+cursor.execute("SELECT ideal." + ideal_for_y4_function + " from DBSCHEMAARAS.ideal")
 
 result = cursor.fetchall()
 
@@ -1207,12 +1207,91 @@ plt.show()
 
 #</Prüfung ob zugewiesene tatsächlich passend>--------------------------
 
-#<Identifikation M>-----------------------------------------------------
+#<Identifikation M für unsere 4 idealen Funktionen>---------------------
+# M ist die maximale Abweichung zwischen Datensatz idealer Funktion und Testdatensatz
+
+cursor.execute('''
+CREATE TABLE distanzIdealTestFuerM AS SELECT 
+t.y - i.''' + ideal_for_y1_function + ''' as "y1_y",
+t.y - i.''' + ideal_for_y2_function + ''' as "y2_y",
+t.y - i.''' + ideal_for_y3_function + ''' as "y3_y",
+t.y - i.''' + ideal_for_y4_function + ''' as "y4_y"
+FROM DBSCHEMAARAS.ideal as i
+LEFT OUTER JOIN DBSCHEMAARAS.test as t on t.x = i.x
+''')
+
+result = cursor.fetchall()
+
+
+cursor.close()
+cursor = db.cursor()
+
+cursor.execute('''
+DELETE FROM DBSCHEMAARAS.distanzIdealTestFuerM 
+WHERE y1_y IS NULL and y2_y IS NULL and y3_y IS NULL and y4_y IS NULL
+''')
+
+result = cursor.fetchall()
+
+
+cursor.close()
+cursor = db.cursor()
+
+cursor.execute('''
+CREATE TABLE quad_distanzIdealTestfuerM AS SELECT 
+SUM(POWER((y1_y),2)) as "y1_y",
+SUM(POWER((y2_y),2)) as "y2_y",
+SUM(POWER((y3_y),2)) as "y3_y",
+SUM(POWER((y4_y),2)) as "y4_y"
+FROM DBSCHEMAARAS.distanzIdealTestfuerM
+''')
+
+result = cursor.fetchall()
+
+
+cursor.close()
+cursor = db.cursor()
+
+cursor.execute('''
+CREATE TABLE max_distanzIdealTestfuerM AS SELECT 
+MAX(y1_y) as "M_y1",
+MAX(y2_y) as "M_y2",
+MAX(y3_y) as "M_y3",
+MAX(y4_y) as "M_y4"
+FROM DBSCHEMAARAS.quad_distanzIdealTestfuerM
+''')
+
+result = cursor.fetchall()
+
+
+cursor.close()
+cursor = db.cursor()
+
 
 #</Identifikation M>----------------------------------------------------
 
 #<Identifikation N>-----------------------------------------------------
 
+
+cursor.execute('''
+CREATE TABLE bestimmung_N AS SELECT CASE GREATEST(
+y1_''' + ideal_for_y1_function + ''',
+y2_''' + ideal_for_y2_function + ''',
+y3_''' + ideal_for_y3_function + ''',
+y4_''' + ideal_for_y4_function + ''')
+WHEN y1_''' + ideal_for_y1_function + ''' THEN y1_''' + ideal_for_y1_function + '''
+WHEN y2_''' + ideal_for_y2_function + ''' THEN y2_''' + ideal_for_y2_function + '''
+WHEN y3_''' + ideal_for_y3_function + ''' THEN y3_''' + ideal_for_y3_function + '''
+WHEN y4_''' + ideal_for_y4_function + ''' THEN y4_''' + ideal_for_y4_function + '''
+END AS N
+FROM DBSCHEMAARAS.quad_distanz
+''')
+
+result = cursor.fetchall()
+
+
+cursor.close()
+cursor = db.cursor()
 
 #</Identifikation N>----------------------------------------------------
 
