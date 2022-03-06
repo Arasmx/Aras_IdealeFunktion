@@ -1,3 +1,5 @@
+import math
+
 import mysql.connector
 import csv
 import numpy
@@ -1294,6 +1296,40 @@ cursor.close()
 cursor = db.cursor()
 
 #</Identifikation N>----------------------------------------------------
+
+#<Berechnung der M/N Formel>--------------------------------------------
+# M < (sqrt(2))*N ?
+
+# fetching M
+cursor.execute('''SELECT M_y1, M_y2, M_y3,M_y4
+FROM max_distanzIdealTestfuerM ''')
+
+result_m = cursor.fetchall()
+cursor.close()
+cursor = db.cursor()
+
+#Fetching N
+
+cursor.execute('''
+SELECT N FROM bestimmung_N
+''')
+
+result_n = cursor.fetchall()
+cursor.close()
+cursor = db.cursor()
+
+for n in result_n:
+    nWert = n[0]
+
+for m in result_m:
+    idealy1Toleranz = m[0] < (math.sqrt(2) * nWert )
+    idealy2Toleranz = m[1] < (math.sqrt(2) * nWert)
+    idealy3Toleranz = m[2] < (math.sqrt(2) * nWert)
+    idealy4Toleranz = m[3] < (math.sqrt(2) * nWert)
+
+print(idealy1Toleranz + idealy2Toleranz + idealy3Toleranz + idealy4Toleranz)
+
+#</Berechnung der M/N Formel>-------------------------------------------
 
 #<Löschen der Tabellen ideal, test und train zur ermöglichung der Neuausführung>
 
