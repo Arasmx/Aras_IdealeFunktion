@@ -1213,7 +1213,7 @@ plt.show()
 # M ist die maximale Abweichung zwischen Datensatz idealer Funktion und Testdatensatz
 
 cursor.execute('''
-CREATE TABLE distanzIdealTestFuerM AS SELECT t.x as "x-Test", t.y as "y-Test",
+CREATE TABLE distanzIdealTestFuerM AS SELECT t.x as "xTest", t.y as "yTest",
 t.y - i.''' + ideal_for_y1_function + ''' as "distanz_Zu_y1",
 t.y - i.''' + ideal_for_y2_function + ''' as "distanz_Zu_y2",
 t.y - i.''' + ideal_for_y3_function + ''' as "distanz_Zu_y3",
@@ -1301,7 +1301,7 @@ cursor = db.cursor()
 # M < (sqrt(2))*N ?
 
 # fetching M
-cursor.execute(''' SELECT x-Test, y-Test, distanz_Zu_y1, distanz_Zu_y2, distanz_Zu_y3, distanz_Zu_y4
+cursor.execute(''' SELECT xTest, yTest, distanz_Zu_y1, distanz_Zu_y2, distanz_Zu_y3, distanz_Zu_y4
 FROM DBSCHEMAARAS.distanzIdealTestFuerM''')
 
 result_m = cursor.fetchall()
@@ -1334,8 +1334,8 @@ listy4Tuple = []
 
 cursor.execute('''
 CREATE TABLE distanzIdealTestFormelFiltered (
-    x-Test type decimal(21,12),
-    y-Test type decimal(21,12),
+    xTest type decimal(21,12),
+    yTest type decimal(21,12),
     distanz type decimal(21,12),
     ideal type decimal(21,12) )
 ''')
@@ -1355,7 +1355,7 @@ for m in result_m:
             listy1Tuple.append(m[2])
             listy1Tuple.append('y1')
 #            listy1.append(listy1Tuple)
-            statement = 'INSERT INTO dbschemaaras.distanzIdealTestFormelFiltered (x-Test, y-Test, distanz, ideal) VALUES (%s,%s,%s,%s)'
+            statement = 'INSERT INTO dbschemaaras.distanzIdealTestFormelFiltered (xTest, yTest, distanz, ideal) VALUES (%s,%s,%s,%s)'
             cursor.execute(statement, listy4Tuple)
             db.commit()
 
@@ -1371,7 +1371,7 @@ for m in result_m:
             listy2Tuple.append(m[3])
             listy2Tuple.append('y2')
 #            listy2.append(listy2Tuple)
-            statement = 'INSERT INTO dbschemaaras.distanzIdealTestFormelFiltered (x-Test, y-Test, distanz, ideal) VALUES (%s,%s,%s,%s)'
+            statement = 'INSERT INTO dbschemaaras.distanzIdealTestFormelFiltered (xTest, yTest, distanz, ideal) VALUES (%s,%s,%s,%s)'
             cursor.execute(statement, listy4Tuple)
             db.commit()
 
@@ -1386,7 +1386,7 @@ for m in result_m:
             listy3Tuple.append(m[4])
             listy3Tuple.append('y3')
 #            listy3.append(listy3Tuple)
-            statement = 'INSERT INTO dbschemaaras.distanzIdealTestFormelFiltered (x-Test, y-Test, distanz, ideal) VALUES (%s,%s,%s,%s)'
+            statement = 'INSERT INTO dbschemaaras.distanzIdealTestFormelFiltered (xTest, yTest, distanz, ideal) VALUES (%s,%s,%s,%s)'
             cursor.execute(statement, listy3Tuple)
             db.commit()
 
@@ -1402,7 +1402,7 @@ for m in result_m:
             listy4Tuple.append(m[5])
             listy4Tuple.append('y4')
 #            listy4.append(listy4Tuple)
-            statement = 'INSERT INTO dbschemaaras.distanzIdealTestFormelFiltered (x-Test, y-Test, distanz, ideal) VALUES (%s,%s,%s,%s)'
+            statement = 'INSERT INTO dbschemaaras.distanzIdealTestFormelFiltered (xTest, yTest, distanz, ideal) VALUES (%s,%s,%s,%s)'
             cursor.execute(statement, listy4Tuple)
             db.commit()
 
