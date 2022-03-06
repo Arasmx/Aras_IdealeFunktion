@@ -1356,7 +1356,7 @@ for m in result_m:
             listy1Tuple.append('y1')
 #            listy1.append(listy1Tuple)
             statement = 'INSERT INTO "distanzIdealTestFormelFiltered" ("xTest", "yTest", "distanz", "ideal") VALUES (%s,%s,%s,%s)'
-            cursor.execute(statement, listy4Tuple)
+            cursor.execute(statement, (m[0],m[1],m[2],'y1'))
             db.commit()
 
             result = cursor.fetchall()
@@ -1372,7 +1372,7 @@ for m in result_m:
             listy2Tuple.append('y2')
 #            listy2.append(listy2Tuple)
             statement = 'INSERT INTO "distanzIdealTestFormelFiltered" ("xTest", "yTest", "distanz", "ideal") VALUES (%s,%s,%s,%s)'
-            cursor.execute(statement, listy4Tuple)
+            cursor.execute(statement, (m[0],m[1],m[3],'y2'))
             db.commit()
 
             result = cursor.fetchall()
@@ -1387,7 +1387,7 @@ for m in result_m:
             listy3Tuple.append('y3')
 #            listy3.append(listy3Tuple)
             statement = 'INSERT INTO "distanzIdealTestFormelFiltered" ("xTest", "yTest", "distanz", "ideal") VALUES (%s,%s,%s,%s)'
-            cursor.execute(statement, listy3Tuple)
+            cursor.execute(statement, (m[0],m[1],m[4],'y3'))
             db.commit()
 
             result = cursor.fetchall()
@@ -1403,7 +1403,7 @@ for m in result_m:
             listy4Tuple.append('y4')
 #            listy4.append(listy4Tuple)
             statement = 'INSERT INTO "distanzIdealTestFormelFiltered" ("xTest", "yTest", "distanz", "ideal") VALUES (%s,%s,%s,%s)'
-            cursor.execute(statement, listy4Tuple)
+            cursor.execute(statement, (m[0],m[1],m[5],'y4'))
             db.commit()
 
             result = cursor.fetchall()
