@@ -1333,11 +1333,11 @@ listy4Tuple = []
 # hier kommen die Testwerte und ihre Distanz zur idealfunktion rein die M < sqrt(2) * N erfüllen:
 
 cursor.execute('''
-CREATE TABLE DBSCHEMAARAS.distanzIdealTestFormelFiltered (
-    "xTest" DECIMAL(21,12) NULL,
-    "yTest" DECIMAL(21,12) NULL,
-    "distanz" DECIMAL(21,12) NULL,
-    "ideal" DECIMAL(21,12) NULL )
+CREATE TABLE IF NOT EXISTS DBSCHEMAARAS.distanzIdealTestFormelFiltered (
+    `xTest` DECIMAL(21,12) NULL,
+    `yTest` DECIMAL(21,12) NULL,
+    `distanz` DECIMAL(21,12) NULL,
+    `ideal` DECIMAL(21,12) NULL )
 ''')
 
 result = cursor.fetchall()
