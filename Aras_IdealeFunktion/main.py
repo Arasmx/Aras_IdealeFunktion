@@ -1322,10 +1322,10 @@ for n in result_n:
     nWert = n[0]
 
 for m in result_m:
-    idealy1Toleranz = m[0] < (math.sqrt(2) * nWert )
-    idealy2Toleranz = m[1] < (math.sqrt(2) * nWert)
-    idealy3Toleranz = m[2] < (math.sqrt(2) * nWert)
-    idealy4Toleranz = m[3] < (math.sqrt(2) * nWert)
+    idealy1Toleranz = math.sqrt(m[0]) < (math.sqrt(2) * nWert)
+    idealy2Toleranz = math.sqrt(m[1]) < (math.sqrt(2) * nWert)
+    idealy3Toleranz = math.sqrt(m[2]) < (math.sqrt(2) * nWert)
+    idealy4Toleranz = math.sqrt(m[3]) < (math.sqrt(2) * nWert)
 
 print(idealy1Toleranz + idealy2Toleranz + idealy3Toleranz + idealy4Toleranz)
 
