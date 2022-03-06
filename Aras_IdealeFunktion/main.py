@@ -1213,7 +1213,7 @@ plt.show()
 # M ist die maximale Abweichung zwischen Datensatz idealer Funktion und Testdatensatz
 
 cursor.execute('''
-CREATE TABLE distanzIdealTestFuerM AS SELECT t.x as x-Test, t.y as y-Test,
+CREATE TABLE distanzIdealTestFuerM AS SELECT t.x as "x-Test", t.y as "y-Test",
 t.y - i.''' + ideal_for_y1_function + ''' as "distanz_Zu_y1",
 t.y - i.''' + ideal_for_y2_function + ''' as "distanz_Zu_y2",
 t.y - i.''' + ideal_for_y3_function + ''' as "distanz_Zu_y3",
@@ -1301,7 +1301,7 @@ cursor = db.cursor()
 # M < (sqrt(2))*N ?
 
 # fetching M
-cursor.execute(''' SELECT t.x as x-Test, t.y as y-Test, distanz_Zu_y1, distanz_Zu_y2, distanz_Zu_y3, distanz_Zu_y4
+cursor.execute(''' SELECT t.x as "x-Test", t.y as "y-Test", distanz_Zu_y1, distanz_Zu_y2, distanz_Zu_y3, distanz_Zu_y4
 FROM DBSCHEMAARAS.distanzIdealTestFuerM''')
 
 result_m = cursor.fetchall()
