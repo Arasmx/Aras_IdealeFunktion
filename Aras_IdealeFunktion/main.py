@@ -1230,7 +1230,7 @@ cursor = db.cursor()
 
 cursor.execute('''
 DELETE FROM DBSCHEMAARAS.distanzIdealTestFuerM 
-WHERE y1_y IS NULL and y2_y IS NULL and y3_y IS NULL and y4_y IS NULL
+WHERE distanz_Zu_y1 IS NULL and distanz_Zu_y2 IS NULL and distanz_Zu_y3 IS NULL and distanz_Zu_y4 IS NULL
 ''')
 
 result = cursor.fetchall()
