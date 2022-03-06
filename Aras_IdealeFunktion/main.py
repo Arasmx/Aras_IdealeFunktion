@@ -1301,7 +1301,7 @@ cursor = db.cursor()
 # M < (sqrt(2))*N ?
 
 # fetching M
-cursor.execute(''' SELECT t.x as "x-Test", t.y as "y-Test", distanz_Zu_y1, distanz_Zu_y2, distanz_Zu_y3, distanz_Zu_y4
+cursor.execute(''' SELECT x-Test, y-Test, distanz_Zu_y1, distanz_Zu_y2, distanz_Zu_y3, distanz_Zu_y4
 FROM DBSCHEMAARAS.distanzIdealTestFuerM''')
 
 result_m = cursor.fetchall()
