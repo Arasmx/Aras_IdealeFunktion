@@ -1355,7 +1355,7 @@ for m in result_m:
             listy1Tuple.append(m[2])
             listy1Tuple.append('y1')
             listy1.append(listy1Tuple)
-
+    
 
 
     idealy2Toleranz = m[3] < (math.sqrt(2) * nWert)
@@ -1393,7 +1393,8 @@ df_listy3 = pd.DataFrame(listy3)
 df_listy4 = pd.DataFrame(listy4)
 
 pd.set_option("display.max_rows", None, "display.max_columns", None)
-print(df_listy1)
+for r in listy1:
+    print(r)
 
 for row in df_listy1.itertuples():
     statement = 'INSERT INTO dbschemaaras.distanzIdealTestFormelFiltered (xTest, yTest, distanz, ideal) VALUES (%s,%s,%s,%s)'
