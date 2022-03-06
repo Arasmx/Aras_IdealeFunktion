@@ -1337,7 +1337,7 @@ CREATE TABLE IF NOT EXISTS DBSCHEMAARAS.distanzIdealTestFormelFiltered (
     `xTest` DECIMAL(21,12) NULL,
     `yTest` DECIMAL(21,12) NULL,
     `distanz` DECIMAL(21,12) NULL,
-    `ideal` DECIMAL(21,12) NULL )
+    `ideal` CHAR(3) NULL )
 ''')
 
 result = cursor.fetchall()
@@ -1354,14 +1354,8 @@ for m in result_m:
             listy1Tuple.append(m[1])
             listy1Tuple.append(m[2])
             listy1Tuple.append('y1')
-#            listy1.append(listy1Tuple)
-            statement = 'INSERT INTO "distanzIdealTestFormelFiltered" ("xTest", "yTest", "distanz", "ideal") VALUES (%s,%s,%s,%s)'
-            cursor.execute(statement, (m[0],m[1],m[2],'y1'))
-            db.commit()
+            listy1.append(listy1Tuple)
 
-            result = cursor.fetchall()
-            cursor.close()
-            cursor = db.cursor()
 
 
     idealy2Toleranz = m[3] < (math.sqrt(2) * nWert)
@@ -1370,14 +1364,8 @@ for m in result_m:
             listy2Tuple.append(m[1])
             listy2Tuple.append(m[3])
             listy2Tuple.append('y2')
-#            listy2.append(listy2Tuple)
-            statement = 'INSERT INTO "distanzIdealTestFormelFiltered" ("xTest", "yTest", "distanz", "ideal") VALUES (%s,%s,%s,%s)'
-            cursor.execute(statement, (m[0],m[1],m[3],'y2'))
-            db.commit()
+            listy2.append(listy2Tuple)
 
-            result = cursor.fetchall()
-            cursor.close()
-            cursor = db.cursor()
 
     idealy3Toleranz = m[4] < (math.sqrt(2) * nWert)
     if idealy3Toleranz is True:
@@ -1385,14 +1373,8 @@ for m in result_m:
             listy3Tuple.append(m[1])
             listy3Tuple.append(m[4])
             listy3Tuple.append('y3')
-#            listy3.append(listy3Tuple)
-            statement = 'INSERT INTO "distanzIdealTestFormelFiltered" ("xTest", "yTest", "distanz", "ideal") VALUES (%s,%s,%s,%s)'
-            cursor.execute(statement, (m[0],m[1],m[4],'y3'))
-            db.commit()
+            listy3.append(listy3Tuple)
 
-            result = cursor.fetchall()
-            cursor.close()
-            cursor = db.cursor()
 
 
     idealy4Toleranz = m[5] < (math.sqrt(2) * nWert)
@@ -1401,16 +1383,58 @@ for m in result_m:
             listy4Tuple.append(m[1])
             listy4Tuple.append(m[5])
             listy4Tuple.append('y4')
-#            listy4.append(listy4Tuple)
-            statement = 'INSERT INTO "distanzIdealTestFormelFiltered" ("xTest", "yTest", "distanz", "ideal") VALUES (%s,%s,%s,%s)'
-            cursor.execute(statement, (m[0],m[1],m[5],'y4'))
-            db.commit()
-
-            result = cursor.fetchall()
-            cursor.close()
-            cursor = db.cursor()
+            listy4.append(listy4Tuple)
 
 
+
+df_listy1 = pd.DataFrame(listy1)
+df_listy2 = pd.DataFrame(listy2)
+df_listy3 = pd.DataFrame(listy3)
+df_listy4 = pd.DataFrame(listy4)
+
+pd.set_option("display.max_rows", None, "display.max_columns", None)
+print(df_listy1)
+
+for row in df_listy1.itertuples():
+    statement = 'INSERT INTO dbschemaaras.distanzIdealTestFormelFiltered (xTest, yTest, distanz, ideal) VALUES (%s,%s,%s,%s)'
+    data = (row[1], row[2], row[3], row[4])
+    cursor.execute(statement, data)
+db.commit()
+
+result = cursor.fetchall()
+cursor.close()
+cursor = db.cursor()
+
+for row in df_listy2.itertuples():
+    statement = 'INSERT INTO dbschemaaras.distanzIdealTestFormelFiltered (xTest, yTest, distanz, ideal) VALUES (%s,%s,%s,%s)'
+    data = (row[1], row[2], row[3], row[4])
+    cursor.execute(statement, data)
+db.commit()
+
+result = cursor.fetchall()
+cursor.close()
+cursor = db.cursor()
+
+
+for row in df_listy3.itertuples():
+    statement = 'INSERT INTO dbschemaaras.distanzIdealTestFormelFiltered (xTest, yTest, distanz, ideal) VALUES (%s,%s,%s,%s)'
+    data = (row[1], row[2], row[3], row[4])
+    cursor.execute(statement, data)
+db.commit()
+
+result = cursor.fetchall()
+cursor.close()
+cursor = db.cursor()
+
+for row in df_listy4.itertuples():
+    statement = 'INSERT INTO dbschemaaras.distanzIdealTestFormelFiltered (xTest, yTest, distanz, ideal) VALUES (%s,%s,%s,%s)'
+    data = (row[1], row[2], row[3], row[4])
+    cursor.execute(statement, data)
+db.commit()
+
+result = cursor.fetchall()
+cursor.close()
+cursor = db.cursor()
 
 
 
