@@ -1239,20 +1239,20 @@ result = cursor.fetchall()
 cursor.close()
 cursor = db.cursor()
 
-cursor.execute('''
-CREATE TABLE quad_distanzIdealTestfuerM AS SELECT 
-POWER((y1_y),2) as "y1_y",
-POWER((y2_y),2) as "y2_y",
-POWER((y3_y),2) as "y3_y",
-POWER((y4_y),2) as "y4_y"
-FROM DBSCHEMAARAS.distanzIdealTestfuerM
-''')
-
-result = cursor.fetchall()
-
-
-cursor.close()
-cursor = db.cursor()
+# cursor.execute('''
+# CREATE TABLE quad_distanzIdealTestfuerM AS SELECT
+# POWER((y1_y),2) as "y1_y",
+# POWER((y2_y),2) as "y2_y",
+# POWER((y3_y),2) as "y3_y",
+# POWER((y4_y),2) as "y4_y"
+# FROM DBSCHEMAARAS.distanzIdealTestfuerM
+# ''')
+#
+# result = cursor.fetchall()
+#
+#
+# cursor.close()
+# cursor = db.cursor()
 
 cursor.execute('''
 CREATE TABLE max_distanzIdealTestfuerM AS SELECT 
@@ -1260,7 +1260,7 @@ MAX(y1_y) as "M_y1",
 MAX(y2_y) as "M_y2",
 MAX(y3_y) as "M_y3",
 MAX(y4_y) as "M_y4"
-FROM DBSCHEMAARAS.quad_distanzIdealTestfuerM
+FROM DBSCHEMAARAS.distanzIdealTestfuerM
 ''')
 
 result = cursor.fetchall()
@@ -1322,10 +1322,10 @@ for n in result_n:
     nWert = n[0]
 
 for m in result_m:
-    idealy1Toleranz = math.sqrt(m[0]) < (math.sqrt(2) * nWert)
-    idealy2Toleranz = math.sqrt(m[1]) < (math.sqrt(2) * nWert)
-    idealy3Toleranz = math.sqrt(m[2]) < (math.sqrt(2) * nWert)
-    idealy4Toleranz = math.sqrt(m[3]) < (math.sqrt(2) * nWert)
+    idealy1Toleranz = m[0] < (math.sqrt(2) * nWert)
+    idealy2Toleranz = m[1] < (math.sqrt(2) * nWert)
+    idealy3Toleranz = m[2] < (math.sqrt(2) * nWert)
+    idealy4Toleranz = m[3] < (math.sqrt(2) * nWert)
 
 print(idealy1Toleranz + idealy2Toleranz + idealy3Toleranz + idealy4Toleranz)
 
