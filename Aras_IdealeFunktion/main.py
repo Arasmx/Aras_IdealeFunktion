@@ -1334,10 +1334,10 @@ listy4Tuple = []
 
 cursor.execute('''
 CREATE TABLE DBSCHEMAARAS.distanzIdealTestFormelFiltered (
-    xTest type decimal(21,12),
-    yTest type decimal(21,12),
-    distanz type decimal(21,12),
-    ideal type decimal(21,12) )
+    "xTest" DECIMAL(21,12) NULL,
+    "yTest" DECIMAL(21,12) NULL,
+    "distanz" DECIMAL(21,12) NULL,
+    "ideal" DECIMAL(21,12) NULL )
 ''')
 
 result = cursor.fetchall()
