@@ -1311,7 +1311,7 @@ cursor = db.cursor()
 #Fetching N
 
 cursor.execute('''
-SELECT N FROM BSCHEMAARAS.bestimmung_N
+SELECT N FROM DBSCHEMAARAS.bestimmung_N
 ''')
 
 result_n = cursor.fetchall()
@@ -1333,7 +1333,7 @@ listy4Tuple = []
 # hier kommen die Testwerte und ihre Distanz zur idealfunktion rein die M < sqrt(2) * N erfüllen:
 
 cursor.execute('''
-CREATE TABLE distanzIdealTestFormelFiltered (
+CREATE TABLE DBSCHEMAARAS.distanzIdealTestFormelFiltered (
     xTest type decimal(21,12),
     yTest type decimal(21,12),
     distanz type decimal(21,12),
