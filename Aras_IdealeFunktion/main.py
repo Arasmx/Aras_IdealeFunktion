@@ -1213,11 +1213,11 @@ plt.show()
 # M ist die maximale Abweichung zwischen Datensatz idealer Funktion und Testdatensatz
 
 cursor.execute('''
-CREATE TABLE distanzIdealTestFuerM AS SELECT 
-t.y - i.''' + ideal_for_y1_function + ''' as "y1_y",
-t.y - i.''' + ideal_for_y2_function + ''' as "y2_y",
-t.y - i.''' + ideal_for_y3_function + ''' as "y3_y",
-t.y - i.''' + ideal_for_y4_function + ''' as "y4_y"
+CREATE TABLE distanzIdealTestFuerM AS SELECT t.x as x-Test, t.y as y-Test,
+t.y - i.''' + ideal_for_y1_function + ''' as "distanz_Zu_y1",
+t.y - i.''' + ideal_for_y2_function + ''' as "distanz_Zu_y2",
+t.y - i.''' + ideal_for_y3_function + ''' as "distanz_Zu_y3",
+t.y - i.''' + ideal_for_y4_function + ''' as "distanz_Zu_y4"
 FROM DBSCHEMAARAS.ideal as i
 LEFT OUTER JOIN DBSCHEMAARAS.test as t on t.x = i.x
 ''')
@@ -1254,20 +1254,20 @@ cursor = db.cursor()
 # cursor.close()
 # cursor = db.cursor()
 
-cursor.execute('''
-CREATE TABLE max_distanzIdealTestfuerM AS SELECT 
-MAX(y1_y) as "M_y1",
-MAX(y2_y) as "M_y2",
-MAX(y3_y) as "M_y3",
-MAX(y4_y) as "M_y4"
-FROM DBSCHEMAARAS.distanzIdealTestfuerM
-''')
-
-result = cursor.fetchall()
-
-
-cursor.close()
-cursor = db.cursor()
+# cursor.execute('''
+# CREATE TABLE max_distanzIdealTestfuerM AS SELECT
+# MAX(y1_y) as "M_y1",
+# MAX(y2_y) as "M_y2",
+# MAX(y3_y) as "M_y3",
+# MAX(y4_y) as "M_y4"
+# FROM DBSCHEMAARAS.distanzIdealTestfuerM
+# ''')
+#
+# result = cursor.fetchall()
+#
+#
+# cursor.close()
+# cursor = db.cursor()
 
 
 #</Identifikation M>----------------------------------------------------
@@ -1301,8 +1301,8 @@ cursor = db.cursor()
 # M < (sqrt(2))*N ?
 
 # fetching M
-cursor.execute('''SELECT M_y1, M_y2, M_y3,M_y4
-FROM max_distanzIdealTestfuerM ''')
+cursor.execute(''' SELECT t.x as x-Test, t.y as y-Test, distanz_Zu_y1, distanz_Zu_y2, distanz_Zu_y3, distanz_Zu_y4
+FROM DBSCHEMAARAS.distanzIdealTestFuerM''')
 
 result_m = cursor.fetchall()
 cursor.close()
