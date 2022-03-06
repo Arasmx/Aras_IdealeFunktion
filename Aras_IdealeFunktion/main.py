@@ -1321,13 +1321,98 @@ cursor = db.cursor()
 for n in result_n:
     nWert = n[0]
 
-for m in result_m:
-    idealy1Toleranz = m[0] < (math.sqrt(2) * nWert)
-    idealy2Toleranz = m[1] < (math.sqrt(2) * nWert)
-    idealy3Toleranz = m[2] < (math.sqrt(2) * nWert)
-    idealy4Toleranz = m[3] < (math.sqrt(2) * nWert)
+listy1 = []
+listy1Tuple = []
+listy2 = []
+listy2Tuple = []
+listy3 = []
+listy3Tuple = []
+listy4 = []
+listy4Tuple = []
 
-print(idealy1Toleranz + idealy2Toleranz + idealy3Toleranz + idealy4Toleranz)
+# hier kommen die Testwerte und ihre Distanz zur idealfunktion rein die M < sqrt(2) * N erfüllen:
+
+cursor.execute('''
+CREATE TABLE distanzIdealTestFormelFiltered (
+    x-Test type decimal(21,12),
+    y-Test type decimal(21,12),
+    distanz type decimal(21,12),
+    ideal type decimal(21,12) )
+''')
+
+result = cursor.fetchall()
+
+
+cursor.close()
+cursor = db.cursor()
+
+
+for m in result_m:
+    idealy1Toleranz = m[2] < (math.sqrt(2) * nWert)
+    if idealy1Toleranz is True:
+            listy1Tuple.append(m[0])
+            listy1Tuple.append(m[1])
+            listy1Tuple.append(m[2])
+            listy1Tuple.append('y1')
+#            listy1.append(listy1Tuple)
+            statement = 'INSERT INTO dbschemaaras.distanzIdealTestFormelFiltered (x-Test, y-Test, distanz, ideal) VALUES (%s,%s,%s,%s)'
+            cursor.execute(statement, listy4Tuple)
+            db.commit()
+
+            result = cursor.fetchall()
+            cursor.close()
+            cursor = db.cursor()
+
+
+    idealy2Toleranz = m[3] < (math.sqrt(2) * nWert)
+    if idealy2Toleranz is True:
+            listy2Tuple.append(m[0])
+            listy2Tuple.append(m[1])
+            listy2Tuple.append(m[3])
+            listy2Tuple.append('y2')
+#            listy2.append(listy2Tuple)
+            statement = 'INSERT INTO dbschemaaras.distanzIdealTestFormelFiltered (x-Test, y-Test, distanz, ideal) VALUES (%s,%s,%s,%s)'
+            cursor.execute(statement, listy4Tuple)
+            db.commit()
+
+            result = cursor.fetchall()
+            cursor.close()
+            cursor = db.cursor()
+
+    idealy3Toleranz = m[4] < (math.sqrt(2) * nWert)
+    if idealy3Toleranz is True:
+            listy3Tuple.append(m[0])
+            listy3Tuple.append(m[1])
+            listy3Tuple.append(m[4])
+            listy3Tuple.append('y3')
+#            listy3.append(listy3Tuple)
+            statement = 'INSERT INTO dbschemaaras.distanzIdealTestFormelFiltered (x-Test, y-Test, distanz, ideal) VALUES (%s,%s,%s,%s)'
+            cursor.execute(statement, listy3Tuple)
+            db.commit()
+
+            result = cursor.fetchall()
+            cursor.close()
+            cursor = db.cursor()
+
+
+    idealy4Toleranz = m[5] < (math.sqrt(2) * nWert)
+    if idealy4Toleranz is True:
+            listy4Tuple.append(m[0])
+            listy4Tuple.append(m[1])
+            listy4Tuple.append(m[5])
+            listy4Tuple.append('y4')
+#            listy4.append(listy4Tuple)
+            statement = 'INSERT INTO dbschemaaras.distanzIdealTestFormelFiltered (x-Test, y-Test, distanz, ideal) VALUES (%s,%s,%s,%s)'
+            cursor.execute(statement, listy4Tuple)
+            db.commit()
+
+            result = cursor.fetchall()
+            cursor.close()
+            cursor = db.cursor()
+
+
+
+
 
 #</Berechnung der M/N Formel>-------------------------------------------
 
