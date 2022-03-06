@@ -1311,7 +1311,7 @@ cursor = db.cursor()
 #Fetching N
 
 cursor.execute('''
-SELECT N FROM bestimmung_N
+SELECT N FROM BSCHEMAARAS.bestimmung_N
 ''')
 
 result_n = cursor.fetchall()
