@@ -1241,10 +1241,10 @@ cursor = db.cursor()
 
 cursor.execute('''
 CREATE TABLE quad_distanzIdealTestfuerM AS SELECT 
-SUM(POWER((y1_y),2)) as "y1_y",
-SUM(POWER((y2_y),2)) as "y2_y",
-SUM(POWER((y3_y),2)) as "y3_y",
-SUM(POWER((y4_y),2)) as "y4_y"
+POWER((y1_y),2) as "y1_y",
+POWER((y2_y),2) as "y2_y",
+POWER((y3_y),2) as "y3_y",
+POWER((y4_y),2) as "y4_y"
 FROM DBSCHEMAARAS.distanzIdealTestfuerM
 ''')
 
