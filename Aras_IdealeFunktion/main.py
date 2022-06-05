@@ -1214,12 +1214,12 @@ plt.show()
 
 cursor.execute('''
 CREATE TABLE distanzIdealTestFuerM AS SELECT t.x as "xTest", t.y as "yTest",
-t.y - i.''' + ideal_for_y1_function + ''' as "distanz_Zu_y1",
-t.y - i.''' + ideal_for_y2_function + ''' as "distanz_Zu_y2",
-t.y - i.''' + ideal_for_y3_function + ''' as "distanz_Zu_y3",
-t.y - i.''' + ideal_for_y4_function + ''' as "distanz_Zu_y4"
-FROM DBSCHEMAARAS.ideal as i
-LEFT OUTER JOIN DBSCHEMAARAS.test as t on t.x = i.x
+ABS(t.y - i.''' + ideal_for_y1_function + ''') as "distanz_Zu_y1",
+ABS(t.y - i.''' + ideal_for_y2_function + ''') as "distanz_Zu_y2",
+ABS(t.y - i.''' + ideal_for_y3_function + ''') as "distanz_Zu_y3",
+ABS(t.y - i.''' + ideal_for_y4_function + ''') as "distanz_Zu_y4"
+FROM DBSCHEMAARAS.test as t
+LEFT OUTER JOIN DBSCHEMAARAS.ideal as i on i.x = t.x
 ''')
 
 result = cursor.fetchall()
@@ -1274,19 +1274,30 @@ cursor = db.cursor()
 
 #<Identifikation N>-----------------------------------------------------
 
+# -----Lösung mit einem übergreifenden N aus summe der quadrierten abweichungen
+#die distanz von train y1 zu ideal y36 ergibt unseren n wert
+# cursor.execute('''
+# CREATE TABLE bestimmung_N AS SELECT CASE GREATEST(
+# y1_''' + ideal_for_y1_function + ''',
+# y2_''' + ideal_for_y2_function + ''',
+# y3_''' + ideal_for_y3_function + ''',
+# y4_''' + ideal_for_y4_function + ''')
+# WHEN y1_''' + ideal_for_y1_function + ''' THEN y1_''' + ideal_for_y1_function + '''
+# WHEN y2_''' + ideal_for_y2_function + ''' THEN y2_''' + ideal_for_y2_function + '''
+# WHEN y3_''' + ideal_for_y3_function + ''' THEN y3_''' + ideal_for_y3_function + '''
+# WHEN y4_''' + ideal_for_y4_function + ''' THEN y4_''' + ideal_for_y4_function + '''
+# END AS N
+# FROM DBSCHEMAARAS.quad_distanz
+# ''')
 
+#Lösung mit einem n pro train->ideal (also insgesamt 4 n) berechnet aus absoluter distanz zwischen train->ideal
 cursor.execute('''
-CREATE TABLE bestimmung_N AS SELECT CASE GREATEST(
-y1_''' + ideal_for_y1_function + ''',
-y2_''' + ideal_for_y2_function + ''',
-y3_''' + ideal_for_y3_function + ''',
-y4_''' + ideal_for_y4_function + ''')
-WHEN y1_''' + ideal_for_y1_function + ''' THEN y1_''' + ideal_for_y1_function + '''
-WHEN y2_''' + ideal_for_y2_function + ''' THEN y2_''' + ideal_for_y2_function + '''
-WHEN y3_''' + ideal_for_y3_function + ''' THEN y3_''' + ideal_for_y3_function + '''
-WHEN y4_''' + ideal_for_y4_function + ''' THEN y4_''' + ideal_for_y4_function + '''
-END AS N
-FROM DBSCHEMAARAS.quad_distanz
+CREATE TABLE bestimmung_N as SELECT 
+MAX(ABS(y1_''' + ideal_for_y1_function + ''')) as y1_''' + ideal_for_y1_function + ''',
+MAX(ABS(y2_''' + ideal_for_y2_function + ''')) as y2_''' + ideal_for_y2_function + ''',
+MAX(ABS(y3_''' + ideal_for_y3_function + ''')) as y3_''' + ideal_for_y3_function + ''',
+MAX(ABS(y4_''' + ideal_for_y4_function + ''')) as y4_''' + ideal_for_y4_function + '''
+FROM DBSCHEMAARAS.distanz
 ''')
 
 result = cursor.fetchall()
@@ -1311,7 +1322,12 @@ cursor = db.cursor()
 #Fetching N
 
 cursor.execute('''
-SELECT N FROM DBSCHEMAARAS.bestimmung_N
+SELECT 
+y1_''' + ideal_for_y1_function + ''' as y1_''' + ideal_for_y1_function + ''',
+y2_''' + ideal_for_y2_function + ''' as y2_''' + ideal_for_y2_function + ''',
+y3_''' + ideal_for_y3_function + ''' as y3_''' + ideal_for_y3_function + ''',
+y4_''' + ideal_for_y4_function + ''' as y4_''' + ideal_for_y4_function + '''
+ FROM DBSCHEMAARAS.bestimmung_N
 ''')
 
 result_n = cursor.fetchall()
@@ -1319,7 +1335,10 @@ cursor.close()
 cursor = db.cursor()
 
 for n in result_n:
-    nWert = n[0]
+    nWerty1 = n[0]
+    nWerty2 = n[1]
+    nWerty3 = n[2]
+    nWerty4 = n[3]
 
 listy1 = []
 listy1Tuple = []
@@ -1348,42 +1367,46 @@ cursor = db.cursor()
 
 
 for m in result_m:
-    idealy1Toleranz = m[2] < (math.sqrt(2) * nWert)
+    idealy1Toleranz = m[2] < (math.sqrt(2) * float(nWerty1))
     if idealy1Toleranz is True:
             listy1Tuple.append(m[0])
             listy1Tuple.append(m[1])
             listy1Tuple.append(m[2])
             listy1Tuple.append('y1')
-            listy1.append(listy1Tuple)
-    
+            listy1.append(listy1Tuple.copy())
+            listy1Tuple.clear()
 
 
-    idealy2Toleranz = m[3] < (math.sqrt(2) * nWert)
+
+    idealy2Toleranz = m[3] < (math.sqrt(2) * float(nWerty2))
     if idealy2Toleranz is True:
             listy2Tuple.append(m[0])
             listy2Tuple.append(m[1])
             listy2Tuple.append(m[3])
             listy2Tuple.append('y2')
-            listy2.append(listy2Tuple)
+            listy2.append(listy2Tuple.copy())
+            listy2Tuple.clear()
 
 
-    idealy3Toleranz = m[4] < (math.sqrt(2) * nWert)
+    idealy3Toleranz = m[4] < (math.sqrt(2) * float(nWerty3))
     if idealy3Toleranz is True:
             listy3Tuple.append(m[0])
             listy3Tuple.append(m[1])
             listy3Tuple.append(m[4])
             listy3Tuple.append('y3')
-            listy3.append(listy3Tuple)
+            listy3.append(listy3Tuple.copy())
+            listy3Tuple.clear()
 
 
 
-    idealy4Toleranz = m[5] < (math.sqrt(2) * nWert)
+    idealy4Toleranz = m[5] < (math.sqrt(2) * float(nWerty4))
     if idealy4Toleranz is True:
             listy4Tuple.append(m[0])
             listy4Tuple.append(m[1])
             listy4Tuple.append(m[5])
             listy4Tuple.append('y4')
-            listy4.append(listy4Tuple)
+            listy4.append(listy4Tuple.copy())
+            listy4Tuple.clear()
 
 
 
@@ -1392,9 +1415,9 @@ df_listy2 = pd.DataFrame(listy2)
 df_listy3 = pd.DataFrame(listy3)
 df_listy4 = pd.DataFrame(listy4)
 
-pd.set_option("display.max_rows", None, "display.max_columns", None)
-for r in listy1:
-    print(r)
+# pd.set_option("display.max_rows", None, "display.max_columns", None)
+# for r in listy1:
+#     print(r)
 
 for row in df_listy1.itertuples():
     statement = 'INSERT INTO dbschemaaras.distanzIdealTestFormelFiltered (xTest, yTest, distanz, ideal) VALUES (%s,%s,%s,%s)'
