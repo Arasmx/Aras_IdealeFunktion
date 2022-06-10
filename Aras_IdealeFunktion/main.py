@@ -160,6 +160,7 @@ cursor = db.cursor()
 
 cursor.execute('''
 CREATE TABLE distanz AS SELECT 
+t.x as "xTrain",
 t.y1 - i.y1 as "y1_y1",
 t.y1 - i.y2 as "y1_y2",
 t.y1 - i.y3 as "y1_y3",
@@ -1239,56 +1240,13 @@ result = cursor.fetchall()
 cursor.close()
 cursor = db.cursor()
 
-# cursor.execute('''
-# CREATE TABLE quad_distanzIdealTestfuerM AS SELECT
-# POWER((y1_y),2) as "y1_y",
-# POWER((y2_y),2) as "y2_y",
-# POWER((y3_y),2) as "y3_y",
-# POWER((y4_y),2) as "y4_y"
-# FROM DBSCHEMAARAS.distanzIdealTestfuerM
-# ''')
-#
-# result = cursor.fetchall()
-#
-#
-# cursor.close()
-# cursor = db.cursor()
 
-# cursor.execute('''
-# CREATE TABLE max_distanzIdealTestfuerM AS SELECT
-# MAX(y1_y) as "M_y1",
-# MAX(y2_y) as "M_y2",
-# MAX(y3_y) as "M_y3",
-# MAX(y4_y) as "M_y4"
-# FROM DBSCHEMAARAS.distanzIdealTestfuerM
-# ''')
-#
-# result = cursor.fetchall()
-#
-#
-# cursor.close()
-# cursor = db.cursor()
 
 
 #</Identifikation M>----------------------------------------------------
 
 #<Identifikation N>-----------------------------------------------------
 
-# -----Lösung mit einem übergreifenden N aus summe der quadrierten abweichungen
-#die distanz von train y1 zu ideal y36 ergibt unseren n wert
-# cursor.execute('''
-# CREATE TABLE bestimmung_N AS SELECT CASE GREATEST(
-# y1_''' + ideal_for_y1_function + ''',
-# y2_''' + ideal_for_y2_function + ''',
-# y3_''' + ideal_for_y3_function + ''',
-# y4_''' + ideal_for_y4_function + ''')
-# WHEN y1_''' + ideal_for_y1_function + ''' THEN y1_''' + ideal_for_y1_function + '''
-# WHEN y2_''' + ideal_for_y2_function + ''' THEN y2_''' + ideal_for_y2_function + '''
-# WHEN y3_''' + ideal_for_y3_function + ''' THEN y3_''' + ideal_for_y3_function + '''
-# WHEN y4_''' + ideal_for_y4_function + ''' THEN y4_''' + ideal_for_y4_function + '''
-# END AS N
-# FROM DBSCHEMAARAS.quad_distanz
-# ''')
 
 #Lösung mit einem n pro train->ideal (also insgesamt 4 n) berechnet aus absoluter distanz zwischen train->ideal
 cursor.execute('''
