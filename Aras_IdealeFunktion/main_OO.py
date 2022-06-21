@@ -1279,24 +1279,41 @@ cursor = db.cursor()
 
 #Fetching N
 
+# cursor.execute('''
+# SELECT
+# y1_''' + ideal_for_y1_function + ''' as y1_''' + ideal_for_y1_function + ''',
+# y2_''' + ideal_for_y2_function + ''' as y2_''' + ideal_for_y2_function + ''',
+# y3_''' + ideal_for_y3_function + ''' as y3_''' + ideal_for_y3_function + ''',
+# y4_''' + ideal_for_y4_function + ''' as y4_''' + ideal_for_y4_function + '''
+#  FROM DBSCHEMAARAS.bestimmung_N
+# ''')
+
 cursor.execute('''
-SELECT 
-y1_''' + ideal_for_y1_function + ''' as y1_''' + ideal_for_y1_function + ''',
-y2_''' + ideal_for_y2_function + ''' as y2_''' + ideal_for_y2_function + ''',
-y3_''' + ideal_for_y3_function + ''' as y3_''' + ideal_for_y3_function + ''',
-y4_''' + ideal_for_y4_function + ''' as y4_''' + ideal_for_y4_function + '''
+SELECT CASE GREATEST(
+ y1_''' + ideal_for_y1_function + ''',
+ y2_''' + ideal_for_y2_function + ''',
+ y3_''' + ideal_for_y3_function + ''',
+ y4_''' + ideal_for_y4_function + ''')
+ WHEN y1_''' + ideal_for_y1_function + ''' THEN y1_''' + ideal_for_y1_function + '''
+ WHEN y2_''' + ideal_for_y2_function + ''' THEN y2_''' + ideal_for_y2_function + '''
+ WHEN y3_''' + ideal_for_y3_function + ''' THEN y3_''' + ideal_for_y3_function + '''
+ WHEN y4_''' + ideal_for_y4_function + ''' THEN y4_''' + ideal_for_y4_function + '''
+ END AS N
  FROM DBSCHEMAARAS.bestimmung_N
-''')
+ ''')
+
+
 
 result_n = cursor.fetchall()
 cursor.close()
 cursor = db.cursor()
 
 for n in result_n:
-    nWerty1 = n[0]
-    nWerty2 = n[1]
-    nWerty3 = n[2]
-    nWerty4 = n[3]
+    nWert = n[0]
+    # nWerty1 = n[0]
+    # nWerty2 = n[1]
+    # nWerty3 = n[2]
+    # nWerty4 = n[3]
 
 listy1 = []
 listy1Tuple = []
@@ -1325,7 +1342,7 @@ cursor = db.cursor()
 
 
 for m in result_m:
-    idealy1Toleranz = m[2] < (math.sqrt(2) * float(nWerty1))
+    idealy1Toleranz = m[2] < (math.sqrt(2) * float(nWert))
     if idealy1Toleranz is True:
             listy1Tuple.append(m[0])
             listy1Tuple.append(m[1])
@@ -1336,7 +1353,7 @@ for m in result_m:
 
 
 
-    idealy2Toleranz = m[3] < (math.sqrt(2) * float(nWerty2))
+    idealy2Toleranz = m[3] < (math.sqrt(2) * float(nWert))
     if idealy2Toleranz is True:
             listy2Tuple.append(m[0])
             listy2Tuple.append(m[1])
@@ -1346,7 +1363,7 @@ for m in result_m:
             listy2Tuple.clear()
 
 
-    idealy3Toleranz = m[4] < (math.sqrt(2) * float(nWerty3))
+    idealy3Toleranz = m[4] < (math.sqrt(2) * float(nWert))
     if idealy3Toleranz is True:
             listy3Tuple.append(m[0])
             listy3Tuple.append(m[1])
@@ -1357,7 +1374,7 @@ for m in result_m:
 
 
 
-    idealy4Toleranz = m[5] < (math.sqrt(2) * float(nWerty4))
+    idealy4Toleranz = m[5] < (math.sqrt(2) * float(nWert))
     if idealy4Toleranz is True:
             listy4Tuple.append(m[0])
             listy4Tuple.append(m[1])
