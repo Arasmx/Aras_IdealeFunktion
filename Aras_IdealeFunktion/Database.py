@@ -1,4 +1,4 @@
-class database:
+class Database:
 
     def __init__(self, user, password, host, database):
         self.user: user

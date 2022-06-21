@@ -1,2 +1,2 @@
-class save_data(database):
+class save_data(Database):
     pass
